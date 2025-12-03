@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obito | Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="1000066585.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <nav>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="logo">Obito</div>
+        
+        <div class="sidebar" id="sidebar">
+            <span class="close-btn" onclick="toggleMenu()">&times;</span>
+            <a href="#socials" onclick="toggleMenu()">Follow me on social media</a>
+            <a href="#contact" onclick="toggleMenu()">Send Email</a>
+            <a href="#channels" onclick="toggleMenu()">Channels</a>
+        </div>
+    </nav>
+
+    <div class="main-scroller">
+        
+        <section class="layer-section" id="home">
+            <div class="content-box">
+                <p class="subtitle">A Noob Developer</p>
+                <h1>Hey, I'm <span class="highlight">Obito!</span></h1>
+                <p class="description">I like to create stylish and amazing Telegram bots, and websites..</p>
+                
+                <div class="buttons">
+                    <a href="#channels" class="btn primary-btn">See Channels</a>
+                    <a href="#contact" class="btn secondary-btn">Contact Me</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer-section" id="skills">
+            <div class="content-box">
+                <h2>My Skills</h2>
+                <div class="skill-icons">
+                    <i class="fa-brands fa-html5"></i>
+                    <i class="fa-brands fa-java"></i>
+                    <i class="fa-brands fa-python"></i>
+                    <i class="fa-brands fa-node-js"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer-section" id="channels">
+            <div class="content-box">
+                <h2 class="section-title">My Channels</h2>
+                <div class="channel-grid">
+                    <a href="https://t.me/Animes_Crew" target="_blank" class="channel-card">
+                        <img src="anime_crew.jpg" alt="Anime Crew">
+                        <div class="card-info">
+                            <h3>Anime Crew</h3>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="https://t.me/Webtoon_Crew" target="_blank" class="channel-card">
+                        <img src="webtoon_crew.jpg" alt="Webtoon Crew">
+                        <div class="card-info">
+                            <h3>Webtoon Crew</h3>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="https://t.me/Pormhwa" target="_blank" class="channel-card">
+                        <img src="pormhwa.jpg" alt="Pormhwa">
+                        <div class="card-info">
+                            <h3>Pormhwa</h3>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="layer-section" id="contact">
+            <div class="content-box">
+                <h2>Have any questions? I'll read it!</h2>
+                <form action="https://formsubmit.co/uffobitoxe@gmail.com" method="POST">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn primary-btn">Submit Email <i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <section class="layer-section" id="socials">
+            <div class="content-box">
+                <h2>Social Media</h2>
+                <div class="social-links-row">
+                    <a href="https://discord.com" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://t.me/i_killed_my_clan" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://vk.com" target="_blank"><i class="fa-brands fa-vk"></i></a>
+                </div>
+                <a href="https://www.instagram.com/u.m.ai.d?igsh=MWI0ZHgzYXIzYTJyeQ==" target="_blank" class="insta-btn">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                
+                <div class="footer-mini">
+                    <div class="safety-links">
+                        <a href="#" onclick="alert('Last updated: 2025-02-27\n\nUnder maintenance.')">Privacy Policy</a>
+                        <a href="#" onclick="alert('Last updated: 2025-02-27\n\nUnder maintenance.')">Terms of Use</a>
+                    </div>
+                    <p class="copyright">Made in 2025 using React & Github Pages.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
