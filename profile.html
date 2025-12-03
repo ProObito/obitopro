@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obito | A Noob Developer</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Poppins Font - Modern aur Stylish Sans-Serif -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles for video background and content layering */
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-padding-top: 5rem; 
+            scroll-behavior: smooth;
+            overflow-x: hidden; 
+        }
+        
+        /* Deep Dark Background Color Scheme */
+        .bg-primary-dark { background-color: #0d0614; } /* Almost Black with a hint of purple */
+        .bg-secondary-dark { background-color: rgba(31, 25, 41, 0.85); } /* Darker card background */
+        .text-accent-pink { color: #e93d8b; } /* Vivid Pink for accents */
+        .text-accent-yellow { color: #FFD700; } /* Gold/Yellow for main title */
+
+        /* Video container poore screen ko cover karega */
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -10; 
+        }
+        
+        #video-bg video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            /* Parallax effect ke liye yeh property JS se update hogi */
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Content container mein halka sa blur aur dark overlay taaki text easily padh saken */
+        .content-section {
+            background-color: rgba(13, 6, 20, 0.95); /* Primary Dark with high opacity */
+            backdrop-filter: blur(8px); /* Glassmorphism effect */
+            padding: 3rem 1.5rem;
+            border-radius: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(168, 85, 247, 0.1); /* Subtle purple border */
+        }
+
+        /* Hamburger menu icon animation */
+        .menu-icon span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: #fff;
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+        
+        /* Menu items par light purple hover effect */
+        .hover-effect:hover {
+            background-color: #A78BFA; /* light purple - violet-400 */
+            color: #111827 !important;
+        }
+
+        /* Channel Thumbnail Animation (Pink Glow and Scale-Up) */
+        .channel-card {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 0 rgba(233, 61, 139, 0); /* Initial shadow for glow */
+        }
+        .channel-card:hover {
+            transform: scale(1.03); /* Halka sa bada hoga */
+            box-shadow: 0 0 20px rgba(233, 61, 139, 0.5), 0 0 40px rgba(233, 61, 139, 0.3); /* Pink Glow */
+            border-color: #e93d8b;
+        }
+
+        /* Skill icon size for responsiveness */
+        .skill-icon {
+            width: 64px;
+            height: 64px;
+        }
+
+        /* Social Logo Styling */
+        .social-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px; /* For image logos */
+        }
+
+        @media (max-width: 640px) {
+            .skill-icon {
+                width: 48px;
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-primary-dark text-white">
+
+    <!-- Video Background Container -->
+    <div id="video-bg">
+        <!-- FILE: bgvideo.mp4 -->
+        <video id="myVideo" autoplay loop muted playsinline poster="https://placehold.co/1920x1080/0D0614/FFFFFF?text=Loading+Premium+Video+BG">
+            <source src="bgvideo.mp4" type="video/mp4">
+            Aapka browser video ko support nahi karta.
+        </video>
+        <div class="absolute inset-0 bg-black opacity-50"></div> <!-- Dark overlay for readability -->
+    </div>
+    
+    <!-- HEADER (Fixed Top) -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-primary-dark/95 backdrop-blur-md shadow-2xl">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            
+            <!-- Hamburger Menu Button (Left of Obito) -->
+            <button id="menu-btn" class="menu-icon p-2 rounded-md hover:bg-violet-700 transition duration-300 focus:outline-none" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Logo / Main Title -->
+            <div class="flex-grow"></div> 
+            <a href="#home" class="text-3xl font-extrabold tracking-widest text-accent-pink hover:text-accent-yellow transition duration-300">
+                Obito
+            </a>
+        </div>
+    </header>
+
+    <!-- OFFCANVAS/MODAL NAVIGATION MENU -->
+    <nav id="offcanvas-menu" class="fixed top-0 right-0 h-full w-64 bg-secondary-dark z-40 transform translate-x-full transition-transform duration-500 ease-in-out shadow-2xl p-6">
+        <div class="flex justify-end mb-8">
+            <button id="close-menu-btn" class="text-white text-4xl hover:text-accent-pink transition duration-300">&times;</button>
+        </div>
+        <ul class="space-y-4">
+            <li>
+                <a href="#home" class="block p-3 rounded-lg text-lg font-semibold hover-effect transition duration-300" onclick="closeMenu()">Home</a>
+            </li>
+            <li>
+                <a href="https://t.me/i_killed_my_clan" target="_blank" class="block p-3 rounded-lg text-lg font-semibold bg-violet-600 text-white text-center hover:bg-violet-700 transition duration-300">
+                    Contact Me (Telegram)
+                </a>
+            </li>
+            <li>
+                <a href="#visit-us" class="block p-3 rounded-lg text-lg font-semibold bg-gray-700 text-white text-center hover-effect transition duration-300" onclick="closeMenu()">
+                    Visit Us (Socials)
+                </a>
+            </li>
+            <li class="pt-4 border-t border-gray-700">
+                <a href="#channels" class="block p-3 rounded-lg text-lg font-semibold text-violet-400 hover-effect transition duration-300" onclick="closeMenu()">See Channels</a>
+            </li>
+            <li>
+                <a href="#skills" class="block p-3 rounded-lg text-lg font-semibold text-violet-400 hover-effect transition duration-300" onclick="closeMenu()">My Skills</a>
+            </li>
+            <li>
+                <a href="#contact" class="block p-3 rounded-lg text-lg font-semibold text-violet-400 hover-effect transition duration-300" onclick="closeMenu()">Contact Form</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-24 pb-8 relative z-20">
+
+        <!-- 1. HOME/BIO SECTION -->
+        <section id="home" class="container mx-auto text-center content-section min-h-[70vh] flex flex-col justify-center items-center">
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-accent-yellow mb-4">
+                A Noob Developer
+            </h1>
+            <p class="text-xl sm:text-3xl font-light text-gray-300 mb-6 max-w-2xl">
+                Hey, I'm <span class="text-accent-pink font-bold">Obito!</span>
+            </p>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mb-10 text-gray-400">
+                I like to create stylish and amazing Telegram bots, and websites..
+            </p>
+            
+            <!-- Contact Me Button (External TG Link) -->
+            <a href="https://t.me/i_killed_my_clan" target="_blank" class="px-10 py-3 bg-accent-pink text-white font-semibold text-lg rounded-full shadow-2xl hover:bg-pink-700 hover-effect transition duration-300 transform hover:scale-105">
+                Contact Me (Telegram)
+            </a>
+        </section>
+        
+        <!-- 2. SKILLS SECTION -->
+        <section id="skills" class="container mx-auto content-section">
+            <h2 class="text-4xl font-extrabold text-center border-b-4 border-accent-pink pb-3 mb-10">
+                My Skills
+            </h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                
+                <!-- Skill 1: Python -->
+                <div class="text-center p-4 rounded-xl transition duration-300 cursor-pointer channel-card hover:border-accent-pink">
+                    <svg class="skill-icon mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#3776AB" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                        <path fill="#FFD43B" d="M12 4.5a7.5 7.5 0 00-7.5 7.5c0 1.25.25 2.4.65 3.5H4.5a7.5 7.5 0 010-15zm7.5 7.5a7.5 7.5 0 00-7.5-7.5v15a7.5 7.5 0 007.5-7.5z"/>
+                        <path fill="#3776AB" d="M14 8h-4a2 2 0 00-2 2v4a2 2 0 002 2h4a2 2 0 002-2v-4a2 2 0 00-2-2z"/>
+                    </svg>
+                    <p class="mt-2 text-lg font-medium">Python</p>
+                </div>
+                
+                <!-- Skill 2: Node.js (for nudes.js) -->
+                <div class="text-center p-4 rounded-xl transition duration-300 cursor-pointer channel-card hover:border-accent-pink">
+                    <svg class="skill-icon mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#8CC84B" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                        <path fill="#333333" d="M14.5 9h-5c-.83 0-1.5.67-1.5 1.5v3c0 .83.67 1.5 1.5 1.5h5c.83 0 1.5-.67 1.5-1.5v-3c0-.83-.67-1.5-1.5-1.5zm-5 4v-3h5v3h-5z"/>
+                    </svg>
+                    <p class="mt-2 text-lg font-medium">Node.js</p>
+                </div>
+
+                <!-- Skill 3: Java -->
+                <div class="text-center p-4 rounded-xl transition duration-300 cursor-pointer channel-card hover:border-accent-pink">
+                    <svg class="skill-icon mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#007396" d="M17 14c-.65 0-1.18.52-1.18 1.18v.64c0 .65.53 1.18 1.18 1.18h.64c.65 0 1.18-.53 1.18-1.18v-.64c0-.66-.53-1.18-1.18-1.18z"/>
+                        <path fill="#EA532D" d="M13.78 6.57L12 9.47l-1.78-2.9h-3.69L12 11.23l5.47-4.66z"/>
+                        <path fill="#007396" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                    <p class="mt-2 text-lg font-medium">Java</p>
+                </div>
+
+                <!-- Skill 4: HTML/CSS -->
+                <div class="text-center p-4 rounded-xl transition duration-300 cursor-pointer channel-card hover:border-accent-pink">
+                    <svg class="skill-icon mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#E34F26" d="M3 3h18l-1.5 16L12 21l-7.5-2z"/>
+                        <path fill="#F06529" d="M12 18.5V5h-4.5l-.25 2.75h4.75l-.25 3H7.5l-.25 2.75h4.75L12 18.5z"/>
+                        <path fill="#EBEBEB" d="M12 13.5l-.25-2.75H7.5l-.25-2.75h5.5l.25 2.75h-3.5l-.25 2.75h3.75z"/>
+                    </svg>
+                    <p class="mt-2 text-lg font-medium">HTML/CSS</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CHANNELS SECTION -->
+        <section id="channels" class="container mx-auto content-section">
+            <div class="flex justify-center mb-10">
+                <a href="#channels" class="px-8 py-3 bg-violet-600 text-white font-semibold text-lg rounded-full shadow-lg hover:bg-violet-700 hover-effect transition duration-300 transform hover:scale-105">
+                    See Channels
+                </a>
+            </div>
+            
+            <h2 class="text-4xl font-extrabold text-center border-b-4 border-accent-pink pb-3 mb-10">
+                My Telegram Channels
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Channel 1: Animes_Crew (Thumbnail: animecrew.png) -->
+                <a href="https://t.me/Animes_Crew" target="_blank" class="block p-4 rounded-xl bg-secondary-dark channel-card border border-gray-700">
+                    <img src="animecrew.png" alt="Animes Crew Thumbnail" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/4F46E5/FFFFFF?text=animecrew.png+PLACEHOLDER';"
+                         class="w-full h-32 object-cover rounded-lg mb-4 transition duration-300">
+                    <h3 class="text-2xl font-semibold text-accent-yellow">
+                        Animes_Crew
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        Latest Anime updates, discussions, and download links. Daily posts.
+                    </p>
+                </a>
+                
+                <!-- Channel 2: Webtoon_Crew (Thumbnail: webtoon.png) -->
+                <a href="https://t.me/Webtoon_Crew" target="_blank" class="block p-4 rounded-xl bg-secondary-dark channel-card border border-gray-700">
+                    <img src="webtoon.png" alt="Webtoon Crew Thumbnail" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/10B981/FFFFFF?text=webtoon.png+PLACEHOLDER';"
+                         class="w-full h-32 object-cover rounded-lg mb-4 transition duration-300">
+                    <h3 class="text-2xl font-semibold text-accent-yellow">
+                        Webtoon_Crew
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        The best Webtoons and Manhwa recommendations. New episodes daily!
+                    </p>
+                </a>
+                
+                <!-- Channel 3: Pormhwa (Thumbnail: pormhwa.png) -->
+                <a href="https://t.me/Pormhwa" target="_blank" class="block p-4 rounded-xl bg-secondary-dark channel-card border border-gray-700">
+                    <img src="pormhwa.png" alt="Manhwa/Pormhwa Crew Thumbnail" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x200/F97316/FFFFFF?text=pormhwa.png+PLACEHOLDER';"
+                         class="w-full h-32 object-cover rounded-lg mb-4 transition duration-300">
+                    <h3 class="text-2xl font-semibold text-accent-yellow">
+                        Pormhwa
+                    </h3>
+                    <p class="mt-2 text-sm text-gray-400">
+                        A dedicated space for Manhwa enthusiasts. Daily releases and reviews.
+                    </p>
+                </a>
+            </div>
+        </section>
+
+        <!-- 4. CONTACT FORM SECTION -->
+        <section id="contact" class="container mx-auto content-section">
+            <h2 class="text-4xl font-extrabold text-center border-b-4 border-accent-pink pb-3 mb-10">
+                Have any questions? I'll read it!
+            </h2>
+            
+            <!-- Mail Form (Action uses mailto: for direct email submission) -->
+            <form action="mailto:uffobitoxe@gmail.com" method="post" enctype="text/plain" class="max-w-xl mx-auto space-y-6">
+                
+                <div>
+                    <label for="name" class="block text-lg font-medium text-gray-300 mb-2">Your Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Apna Naam Yahan Likhein"
+                           class="w-full p-4 rounded-xl bg-gray-800 border border-violet-500 focus:ring-accent-pink focus:border-accent-pink text-white transition duration-300">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-lg font-medium text-gray-300 mb-2">Your Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Aapka Email Address"
+                           class="w-full p-4 rounded-xl bg-gray-800 border border-violet-500 focus:ring-accent-pink focus:border-accent-pink text-white transition duration-300">
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-lg font-medium text-gray-300 mb-2">Your Message:</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Aap kya puchna chahte hain?"
+                              class="w-full p-4 rounded-xl bg-gray-800 border border-violet-500 focus:ring-accent-pink focus:border-accent-pink text-white transition duration-300"></textarea>
+                </div>
+                
+                <button type="submit" class="w-full py-3 bg-accent-pink text-white font-extrabold text-xl rounded-xl shadow-2xl hover:bg-pink-700 hover-effect transition duration-300 transform hover:scale-[1.01]">
+                    Send Mail
+                </button>
+            </form>
+        </section>
+
+        <!-- 5. VISIT US (SOCIALS) SECTION (Internal Link for Menu) -->
+        <section id="visit-us" class="container mx-auto content-section">
+            <h2 class="text-4xl font-extrabold text-center border-b-4 border-accent-pink pb-3 mb-10">
+                Visit Us (Social Media)
+            </h2>
+            <div class="flex justify-center flex-wrap gap-8">
+                
+                <!-- Instagram (IG) - FILE: insta.png -->
+                <a href="YOUR_INSTAGRAM_LINK" target="_blank" class="flex items-center space-x-3 p-4 rounded-xl bg-secondary-dark channel-card border border-gray-700">
+                    <img src="insta.png" alt="Instagram Logo" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/32x32/E93D8B/FFFFFF?text=IG';"
+                         class="social-logo">
+                    <span class="text-xl font-medium">Instagram</span>
+                </a>
+                
+                <!-- Telegram (TG) - FILE: telegram.png -->
+                <a href="YOUR_TELEGRAM_USERNAME_LINK" target="_blank" class="flex items-center space-x-3 p-4 rounded-xl bg-secondary-dark channel-card border border-gray-700">
+                    <img src="telegram.png" alt="Telegram Logo" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/32x32/0088CC/FFFFFF?text=TG';"
+                         class="social-logo">
+                    <span class="text-xl font-medium">Telegram</span>
+                </a>
+
+                <!-- Pinterest - FILE: pin.png -->
+                <a href="YOUR_PINTEREST_LINK" target="_blank" class="flex items-center space-x-3 p-4 rounded-xl bg-secondary-dark channel-card border border-gray-700">
+                    <img src="pin.png" alt="Pinterest Logo" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/32x32/BD081C/FFFFFF?text=Pin';"
+                         class="social-logo">
+                    <span class="text-xl font-medium">Pinterest</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 bg-primary-dark/95 border-t border-gray-700/50 relative z-20">
+        <p class="text-sm text-gray-500 font-light">&copy; 2024 Obito | Developed with <span class="text-accent-pink">❤️</span>.</p>
+    </footer>
+
+    <!-- JavaScript for Interactivity and Parallax -->
+    <script>
+        // DOM Elements
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+   
